@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "athena"
+name = "palzlib"
 version = "0.1.1"
 description = ""
 authors = ["Zoltan Pal <palzoltanet@gmail.com>"]
