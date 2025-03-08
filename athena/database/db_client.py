@@ -1,71 +1,80 @@
 from contextlib import contextmanager
 
-from sqlalchemy import Engine, create_engine
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
 
-from athena.databas.db_config import DBConfig
+from athena.database.db_config import DBConfig
 
 
 class SQLDBClient:
     """
-    Database client for managing SQLAlchemy sessions with connection pooling.
+    Database client for managing SQLAlchemy sessions and connections.
+
+    Attributes:
+        connection_string (str): The connection string for the database.
+        auto_commit (bool): Whether to enable autocommit.
+        auto_flush (bool): Whether to enable autoflush.
+        expire_on_commit (bool): Whether to expire objects on commit.
+        engine (Engine): SQLAlchemy database engine.
+        session_local (sessionmaker): Configured session factory.
     """
 
     def __init__(
         self,
         db_config: DBConfig,
-        pool_size: int = 10,
-        max_overflow: int = 5,
         auto_commit: bool = False,
-        auto_flush: bool = False,
         expire_on_commit: bool = False,
-    ) -> None:
+        auto_flush: bool = False,
+    ):
         """
-        Initialize the database client.
+        Initializes the SQLDBClient with the provided database configuration.
 
-        :param db_config: Database configuration object.
-        :param pool_size: The number of connections to keep in the pool.
-        :param max_overflow: The maximum number of connections that can be created beyond the pool size.
-        :param auto_commit: Whether sessions should automatically commit changes.
-        :param auto_flush: Whether sessions should automatically flush pending changes.
-        :param expire_on_commit: Whether objects should expire after a commit.
+        Args:
+            db_config: Object containing database connection parameters.
+            auto_commit (bool, optional): Whether to enable autocommit. Defaults to False.
+            expire_on_commit (bool, optional): Whether to expire objects on commit. Defaults to False.
+            auto_flush (bool, optional): Whether to enable autoflush. Defaults to False.
+        Raises:
+            ValueError: If db_config is missing.
+            SQLAlchemyError: If engine creation fails.
         """
-        if not db_config:
+        if db_config is None:
             raise ValueError("Missing database configuration.")
 
         self.auto_commit = auto_commit
         self.auto_flush = auto_flush
         self.expire_on_commit = expire_on_commit
 
-        # Construct the database connection string
-        self.connection_string: str = (
-            f"{db_config.dialect}://{db_config.username}:{db_config.password}"
-            f"@{db_config.host}:{db_config.port}/{db_config.dbname}"
+        # Construct database connection string
+        self.connection_string = (
+            f"{db_config.dialect}://{db_config.username}:{db_config.password}@"
+            f"{db_config.host}:{db_config.port}/{db_config.dbname}"
         )
+        self.engine = self._create_engine()
+        self.session_local = self._create_session()
+        print("dbclient initialized")
 
-        self.engine: Engine = self._create_engine(pool_size, max_overflow)
-        self.session_local: sessionmaker = self._create_session_factory()
-
-    def _create_engine(self, pool_size: int, max_overflow: int) -> Engine:
+    def _create_engine(self):
         """
-        Create and return the SQLAlchemy engine with connection pooling.
+        Creates and returns the SQLAlchemy engine.
 
-        :param pool_size: The number of connections to keep in the pool.
-        :param max_overflow: The maximum number of connections that can be created beyond the pool size.
-        :return: SQLAlchemy Engine instance.
+        Returns:
+            Engine: SQLAlchemy database engine.
+        Raises:
+            SQLAlchemyError: If engine creation fails.
         """
-        return create_engine(
-            self.connection_string,
-            pool_size=pool_size,
-            max_overflow=max_overflow,
-            pool_pre_ping=True,
-        )
+        try:
+            return create_engine(self.connection_string, pool_pre_ping=True)
+        except SQLAlchemyError as ex:
+            raise SQLAlchemyError(f"Database engine creation failed: {str(ex)}") from ex
 
-    def _create_session_factory(self) -> sessionmaker:
+    def _create_session(self):
         """
-        Create and return the SQLAlchemy session factory.
+        Creates and returns a session factory.
 
-        :return: SQLAlchemy sessionmaker instance.
+        Returns:
+            sessionmaker: Configured session factory.
         """
         return sessionmaker(
             bind=self.engine,
@@ -75,26 +84,35 @@ class SQLDBClient:
         )
 
     @contextmanager
-    def get_db_session(self) -> Session:
-        """
-        Provide a transactional scope around a series of operations.
+    def get_db_session(
+        self, auto_commit=False, auto_flush=False, expire_on_commit=False
+    ) -> Session:
+        """Context manager for obtaining a database session."""
 
-        :return: A database session object.
-        """
-        session: Session = self.session_local()
+        session = self.session_local()
+        session.autocommit = auto_commit
+        session.autoflush = auto_flush
+        session.expire_on_commit = expire_on_commit
+
+        session = self.session_local()
         try:
             yield session
-            session.commit()
-        except Exception as e:
-            session.rollback()  # Rollback in case of an error
-            raise e
+        except SQLAlchemyError as ex:
+            session.rollback()
+            raise SQLAlchemyError(f"Session error: {str(ex)}") from ex
         finally:
-            session.close()  # Ensure session is closed properly
+            session.close()
 
     def get_session(self) -> Session:
-        """
-        Get a new database session.
+        """Creates and returns a new database session."""
+        if self.session_local is None:
+            return
 
-        :return: A new session instance.
-        """
-        return self.session_local()
+        session = self.session_local()
+        try:
+            yield session
+        except SQLAlchemyError as ex:
+            session.rollback()
+            raise SQLAlchemyError(f"Session error: {str(ex)}") from ex
+        finally:
+            session.close()
