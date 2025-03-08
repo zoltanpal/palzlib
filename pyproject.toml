@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "athena"
+version = "0.1.0"
+description = ""
+authors = ["Zoltan Pal <palzoltanet@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sqlalchemy = "^2.0.38"
+psycopg2-binary = "^2.9.10"
+python-dotenv = "^1.0.1"
+nltk = "^3.9.1"
+transformers = "^4.49.0"
+torch = "^2.6.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
