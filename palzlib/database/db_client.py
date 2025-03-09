@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from palzlib.database.db_config import DBConfig
 
 
-class SQLDBClient:
+class DBClient:
     """
     Database client for managing SQLAlchemy sessions and connections.
 

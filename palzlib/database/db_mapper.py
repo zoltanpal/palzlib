@@ -1,25 +1,25 @@
 from sqlalchemy import MetaData
 from sqlalchemy.ext.automap import automap_base
 
-from palzlib.database.db_client import SQLDBClient
+from palzlib.database.db_client import DBClient
 
 
-class DatabaseMapper:
+class DBMapper:
     """Factory to manage SQLAlchemy automapping."""
 
     _instance = None  # Singleton instance
 
-    def __new__(cls, db_client: SQLDBClient = None):
+    def __new__(cls, db_client: DBClient = None):
         if cls._instance is None:
             if db_client is None:
                 raise ValueError(
                     "A SQLDBClient instance must be provided for the first instantiation."
                 )
-            cls._instance = super(DatabaseMapper, cls).__new__(cls)
+            cls._instance = super(DBMapper, cls).__new__(cls)
             cls._instance._initialize(db_client)
         return cls._instance
 
-    def _initialize(self, db_client: SQLDBClient):
+    def _initialize(self, db_client: DBClient):
         """Initialize database mapping only once."""
         self.db_client = db_client
         self.metadata = MetaData()
