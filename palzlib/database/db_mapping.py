@@ -1,7 +1,7 @@
 from sqlalchemy import MetaData
 from sqlalchemy.ext.automap import automap_base
 
-from athena.database.db_client import SQLDBClient
+from palzlib.database.db_client import SQLDBClient
 
 
 class DatabaseMapper:

@@ -1,9 +1,12 @@
 [tool.poetry]
 name = "palzlib"
-version = "0.1.2"
+version = "0.1.3"
 description = ""
-authors = ["Zoltan Pal <palzoltanet@gmail.com>"]
+authors = ["Zoltan Pal <zoomyster@gmail.com>"]
 readme = "README.md"
+packages = [
+    { include = "palzlib" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"

@@ -1,6 +1,6 @@
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
-from athena.sentiment_analyzers.models import Sentiments
+from palzlib.sentiment_analyzers.models import Sentiments
 
 sid = SentimentIntensityAnalyzer()
 

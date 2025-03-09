@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
 
-from athena.database.db_config import DBConfig
+from palzlib.database.db_config import DBConfig
 
 
 class SQLDBClient:
