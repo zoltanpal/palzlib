@@ -36,7 +36,7 @@ jobs:
           source: "dist/*"
           target: "/var/www/libs/palzlib"
 
-      - name: Verify Deployment (Optional)
+      - name: Verify Deployment
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SERVER_HOST }}
