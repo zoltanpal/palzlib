@@ -1,10 +1,10 @@
-from libs.sentiment_analyzers.langs.dan.sentiment_analyzer import (
+from palzlib.sentiment_analyzers.langs.dan.sentiment_analyzer import (
     get_sentiments as get_sentiments_dan,
 )
-from libs.sentiment_analyzers.langs.eng.sentiment_analyzer import (
+from palzlib.sentiment_analyzers.langs.eng.sentiment_analyzer import (
     get_sentiments as get_sentiments_eng,
 )
-from libs.sentiment_analyzers.langs.hun.sentiment_analyzer import (
+from palzlib.sentiment_analyzers.langs.hun.sentiment_analyzer import (
     get_sentiments as get_sentiments_hun,
 )
 
