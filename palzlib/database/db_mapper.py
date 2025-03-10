@@ -26,7 +26,6 @@ class DBMapper:
         self.metadata.reflect(self.db_client.engine, views=True)
         self.base = automap_base(metadata=self.metadata)
         self.base.prepare(autoload_with=self.db_client.engine)
-        print("db mapping")
 
     def get_model(self, table_name: str):
         """Returns the automapped model class for a given table."""

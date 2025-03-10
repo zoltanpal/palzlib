@@ -53,7 +53,6 @@ class DBClient:
         )
         self.engine = self._create_engine()
         self.session_local = self._create_session()
-        print("dbclient initialized")
 
     def _create_engine(self):
         """
