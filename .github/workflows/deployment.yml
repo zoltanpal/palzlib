@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "dist/*"
-          target: "/var/www/libs/palzlib"
+          target: "${{ secrets.SERVER_DEPLOYMENT_PATH }}"
 
       - name: Verify Deployment
         uses: appleboy/ssh-action@v1.1.0
@@ -42,5 +42,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            ls -lh /var/www/libs/palzlib
+            ls -lh ${{ secrets.SERVER_DEPLOYMENT_PATH }}
             echo "Deployment successful!"
