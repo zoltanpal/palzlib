@@ -50,17 +50,17 @@ Example:
 from sentiment_analyzers.factory.sentiment_factory import SentimentAnalyzerFactory
 
 # Get Hungarian sentiment analyzer
-hun_analyzer = SentimentAnalyzerFactory.get_analyzer("hu")
+hun_analyzer = SentimentAnalyzerFactory.get_analyzer("hun")
 result_hu = hun_analyzer.analyze_text("Ez egy fantasztikus film volt!")
 print(result_hu)
 
 # Get Danish sentiment analyzer
-dan_analyzer = SentimentAnalyzerFactory.get_analyzer("da")
+dan_analyzer = SentimentAnalyzerFactory.get_analyzer("dan")
 result_da = dan_analyzer.analyze_text("Det var en rigtig god film!")
 print(result_da)
 
 # Get English sentiment analyzer
-en_analyzer = SentimentAnalyzerFactory.get_analyzer("en")
+en_analyzer = SentimentAnalyzerFactory.get_analyzer("eng")
 result_en = en_analyzer.analyze_text("This was an amazing movie!")
 print(result_en)
 ```
@@ -75,4 +75,4 @@ To add a new language:
 
 ## Contributions
 
-Feel free to fork, submit issues, or open pull requests to improve the library!
+Feel free to fork, submit issues, or contact me to improve the library!
