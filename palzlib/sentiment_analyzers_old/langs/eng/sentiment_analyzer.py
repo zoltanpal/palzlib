@@ -1,8 +1,8 @@
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from nltk.sentiment.vader import SentimentIntensityAnalyzer as VaderSentimentAnalyzer
 
-from palzlib.sentiment_analyzers.models import Sentiments
+from palzlib.sentiment_analyzers_old.models import Sentiments
 
-sid = SentimentIntensityAnalyzer()
+sid = VaderSentimentAnalyzer()
 
 
 def get_sentiments(text: str) -> Sentiments:

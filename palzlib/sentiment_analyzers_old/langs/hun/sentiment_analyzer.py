@@ -1,9 +1,9 @@
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
 
-from palzlib.sentiment_analyzers.models import Sentiments
+from palzlib.sentiment_analyzers_old.models import LABEL_MAPPING_ROBERTA, Sentiments
 
-# Initialize the tokenizer and model for Danish sentiment analysis
-model_name = "larskjeldgaard/senda"
+# Initialize the tokenizer and model for Hungarian sentiment analysis
+model_name = "NYTK/sentiment-hts5-xlm-roberta-hungarian"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
@@ -36,14 +36,9 @@ def get_sentiments(text: str) -> Sentiments:
 
     # Map the model's predictions to the Sentiments object fields
     sentiment_results = {
-        item["label"]: round(item["score"], 4) for item in sentiment_prediction[0]
+        LABEL_MAPPING_ROBERTA[item["label"]]: round(item["score"], 4)
+        for item in sentiment_prediction[0]
     }
-
-    sentiment_results["negative"] = sentiment_results["negativ"]
-    sentiment_results["positive"] = sentiment_results["positiv"]
-
-    del sentiment_results["negativ"]
-    del sentiment_results["positiv"]
 
     # Return the Sentiments object with the mapped results
     return Sentiments(**sentiment_results)
