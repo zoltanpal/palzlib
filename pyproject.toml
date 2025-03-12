@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "palzlib"
-version = "0.2.2"
+version = "0.3.1"
 description = ""
 authors = ["Zoltan Pal <zoomyster@gmail.com>"]
 readme = "README.md"
