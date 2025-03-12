@@ -52,7 +52,7 @@ class Sentiments:
             float: The calculated compound sentiment score.
         """
         score = self.positive - self.negative
-        return math.tanh(score)
+        return round(math.tanh(score), 4)
 
     def __post_init__(self):
         """
@@ -64,10 +64,10 @@ class Sentiments:
 
         # Round all float fields to 4 decimals
         self.negative = round(self.negative, 4)
-        self.very_negative = round(self.negative, 4)
+        self.very_negative = round(self.very_negative, 4)
         self.neutral = round(self.neutral, 4)
         self.positive = round(self.positive, 4)
-        self.very_positive = round(self.positive, 4)
+        self.very_positive = round(self.very_positive, 4)
 
         if self.compound == 0.0:
             self.compound = self.calculate_compound()
