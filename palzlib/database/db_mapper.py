@@ -11,9 +11,9 @@ from sqlalchemy.ext.automap import (
 from palzlib.database.db_client import DBClient
 
 
-class DBMapping:
+class DBMapper:
     """
-    Initializes the DBMapping class.
+    Initializes the DBMapper class.
 
     :param db_client: An instance of DBClient to connect to the database.
     :param mapping_tables: Optional list of table names to be mapped. If None, all tables are mapped.
