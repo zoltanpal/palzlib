@@ -1,9 +1,13 @@
 name: Deploy to Server
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to deploy"
+        required: true
+        default: "main"
+        
 jobs:
   deploy:
     runs-on: ubuntu-latest
