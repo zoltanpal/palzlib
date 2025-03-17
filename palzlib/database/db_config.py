@@ -7,8 +7,8 @@ class DBConfig:
     password: str
     dbname: str
     host: str
-    dialect: str = field(default="mysql+pymysql")
-    port: int = field(default=3306)
+    dialect: str = field(default="postgresql+psycopg2")
+    port: int = field(default=5432)
 
     def validate(self):
         """Validate the types and fields' values"""
