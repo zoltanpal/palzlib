@@ -17,7 +17,6 @@ on:
           - tests
           - deploy
 
-
 jobs:
   setup:
     name: Setup Environment
@@ -42,8 +41,13 @@ jobs:
           key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Poetry
-        if: steps.cache-deps.outputs.cache-hit != 'true'  # Skip if cache exists
-        run: curl -sSL https://install.python-poetry.org | python3 -
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH  # Ensure Poetry is in PATH
+          source $HOME/.profile  # Reload profile (optional)
+
+      - name: Verify Poetry Installation
+        run: poetry --version
 
       - name: Install dependencies
         run: poetry install
