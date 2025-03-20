@@ -24,3 +24,29 @@ pytest-cov = "^6.0.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+warn_unused_configs = "True"
+disallow_untyped_defs = "False"
+ignore_missing_imports = "False"
+exclude = [".venv"]
+
+[tool.pylint]
+max-line-length = 120
+# W0212: protected access
+disable = ["W0212"]
+
+[tool.pytest.ini_options]
+python_files = "test_*.py"
+norecursedirs = ".* tmp* __pycache__ alchemy"
+testpaths = [
+    "tests",
+]
+addopts = "--cov=. --cov-report=term-missing"
+
+
+[tool.coverage.run]
+omit = [
+    "__init__.py",
+    "tests/*",
+]
