@@ -3,10 +3,10 @@ name: Deploy to Server
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: "Branch to deploy"
-        required: true
-        default: "main"
+#      branch:
+#        description: "Branch to deploy"
+#        required: true
+#        default: "main"
       job:
         description: "Select which job to run"
         required: true
