@@ -7,10 +7,36 @@ on:
         description: "Branch to deploy"
         required: true
         default: "main"
-        
+
 jobs:
-  deploy:
+
+  tests:
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python3 -
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run Unit Tests
+        script: |
+          poetry run python -m pytest ./tests -vv
+          exit
+
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    needs: tests
 
     steps:
       - name: Checkout repository
