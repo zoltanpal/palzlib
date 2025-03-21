@@ -1,17 +1,16 @@
-from unittest.mock import MagicMock
-
 import pytest
 
-
-@pytest.fixture(scope="module")
-def mock_db_client():
-    """Mock the database client."""
-    return MagicMock()
+from palzlib.database.db_client import DBClient
+from palzlib.database.db_config import DBConfig
 
 
-@pytest.fixture(scope="module")
-def mock_db_mapper(mock_db_client):
-    """Mock the database mapping."""
-    db_mapper = MagicMock()
-    db_mapper.db_classes.users = MagicMock()  # Mock User model
-    return db_mapper
+@pytest.fixture(scope="session")
+def mock_db_config():
+    return DBConfig(
+        username="test_user", password="test_pass", dbname="test_db", host="localhost"
+    )
+
+
+@pytest.fixture(scope="session")
+def mock_db_client(mock_db_config):
+    return DBClient(mock_db_config)
