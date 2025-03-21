@@ -91,9 +91,8 @@ class DBClient:
         session = self.session_local()
         session.autocommit = auto_commit
         session.autoflush = auto_flush
-        session.expire_on_commit = expire_on_commit
+        session.expire_on_commit = expire_on_commit  # No need to reassign session
 
-        session = self.session_local()
         try:
             yield session
         except SQLAlchemyError as ex:

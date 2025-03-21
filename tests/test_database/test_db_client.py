@@ -25,11 +25,22 @@ def test_invalid_dbconfig():
 
 
 def test_engine_creation_failure(mock_db_config):
-    mock.patch(
-        "sqlalchemy.create_engine",
-        side_effect=SQLAlchemyError("Engine creation failed"),
-    )
-    with pytest.raises(
-        SQLAlchemyError, match="Database engine creation failed: Engine creation failed"
-    ):
-        DBClient(mock_db_config)
+    with mock.patch("sqlalchemy.create_engine") as mock_create_engine:
+        mock_create_engine.side_effect = SQLAlchemyError("Engine creation failed")
+        with pytest.raises(
+            SQLAlchemyError,
+            match="Database engine creation failed: Engine creation failed",
+        ):
+            DBClient(mock_db_config)
+
+
+def test_get_db_session(mock_db_client):
+    with mock_db_client.get_db_session() as session:
+        assert session is not None
+        assert session.bind == mock_db_client.engine
+
+
+def test_get_db_session_exception(mock_db_client):
+    with pytest.raises(SQLAlchemyError, match="Session error: Intentional failure"):
+        with mock_db_client.get_db_session():
+            raise SQLAlchemyError("Intentional failure")
