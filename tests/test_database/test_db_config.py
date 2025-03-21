@@ -38,32 +38,23 @@ def test_missing_required_fields():
 
 
 @pytest.mark.parametrize(
-    "config, _",
+    "config",
     [
-        (
-            "invalid username",
-            {
-                "username": 123,
-                "password": "pass",
-                "dbname": "database",
-                "host": "localhost",
-            },
-        ),
-        (
-            "invalid password",
-            {
-                "username": "user",
-                "password": 657,
-                "dbname": "database",
-                "host": "localhost",
-            },
-        ),
-        (
-            "invalid host",
-            {"username": 123, "password": "pass", "dbname": "database", "host": 5344},
-        ),
+        {
+            "username": 123,
+            "password": "pass",
+            "dbname": "database",
+            "host": "localhost",
+        },
+        {
+            "username": "user",
+            "password": 657,
+            "dbname": "database",
+            "host": "localhost",
+        },
+        {"username": "user", "password": "pass", "dbname": "database", "host": 5344},
     ],
 )
-def test_invalid_field_types(config, _):
+def test_invalid_field_types(config):
     with pytest.raises(TypeError):
         DBConfig(**config)
