@@ -40,3 +40,13 @@ class HungarianSentimentAnalyzer(SentimentAnalyzerSingleton):
             for item in sentiment_prediction[0]
         }
         return Sentiments(**sentiment_results)
+
+    def analyze_batch(self, texts: List[str]) -> List[Sentiments]:
+        predictions = self.pipeline(texts)
+        return [
+            Sentiments(**{
+                LABEL_MAPPING_ROBERTA[item["label"]]: round(item["score"], 4)
+                for item in prediction
+            })
+            for prediction in predictions
+        ]
