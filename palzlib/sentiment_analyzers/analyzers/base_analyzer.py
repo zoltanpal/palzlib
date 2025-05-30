@@ -1,5 +1,7 @@
-from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
 import threading
+
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
+
 
 class SentimentAnalyzerSingleton:
     """
@@ -7,7 +9,9 @@ class SentimentAnalyzerSingleton:
     Ensures that the model, tokenizer, and pipeline are initialized only once per model name,
     even in a multi-threaded environment.
     """
-    _instances = {}  # Stores the instances of the sentiment analyzer per model name
+
+    # Stores the instances of the sentiment analyzer per model name
+    _instances = {}  # type: ignore
     _lock = threading.Lock()  # Ensures thread safety during initialization
 
     def __new__(cls, model_name):

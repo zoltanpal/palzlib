@@ -1,5 +1,12 @@
-from palzlib.sentiment_analyzers.analyzers.base_analyzer import SentimentAnalyzerSingleton
-from palzlib.sentiment_analyzers.models.sentiments import Sentiments, LABEL_MAPPING_ROBERTA
+from typing import List
+
+from palzlib.sentiment_analyzers.analyzers.base_analyzer import (
+    SentimentAnalyzerSingleton,
+)
+from palzlib.sentiment_analyzers.models.sentiments import (
+    LABEL_MAPPING_ROBERTA,
+    Sentiments,
+)
 
 
 class HungarianSentimentAnalyzer(SentimentAnalyzerSingleton):
@@ -9,6 +16,7 @@ class HungarianSentimentAnalyzer(SentimentAnalyzerSingleton):
     This class inherits from `SentimentAnalyzerSingleton` to ensure only one instance of the model
     is used for Hungarian sentiment analysis.
     """
+
     _instance = None  # Singleton instance
 
     def __new__(cls):
@@ -21,7 +29,9 @@ class HungarianSentimentAnalyzer(SentimentAnalyzerSingleton):
         """
         if cls._instance is None:
             # If no instance exists, create one using the base class's __new__ method
-            cls._instance = super().__new__(cls, "NYTK/sentiment-hts5-xlm-roberta-hungarian")
+            cls._instance = super().__new__(
+                cls, "NYTK/sentiment-hts5-xlm-roberta-hungarian"
+            )
         return cls._instance
 
     def analyze_text(self, text: str) -> Sentiments:
@@ -44,9 +54,11 @@ class HungarianSentimentAnalyzer(SentimentAnalyzerSingleton):
     def analyze_batch(self, texts: List[str]) -> List[Sentiments]:
         predictions = self.pipeline(texts)
         return [
-            Sentiments(**{
-                LABEL_MAPPING_ROBERTA[item["label"]]: round(item["score"], 4)
-                for item in prediction
-            })
+            Sentiments(
+                **{
+                    LABEL_MAPPING_ROBERTA[item["label"]]: round(item["score"], 4)
+                    for item in prediction
+                }
+            )
             for prediction in predictions
         ]

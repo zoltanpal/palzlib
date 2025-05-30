@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "palzlib"
-version = "0.4.1"
+version = "0.4.3"
 description = ""
 authors = ["Zoltan Pal <zoomyster@gmail.com>"]
 readme = "README.md"
@@ -9,13 +9,14 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.10"
 sqlalchemy = "^2.0.38"
 psycopg2-binary = "^2.9.10"
 python-dotenv = "^1.0.1"
 nltk = "^3.9.1"
 transformers = "^4.49.0"
 torch = "^2.6.0"
+spacy = "^3.1.6"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
