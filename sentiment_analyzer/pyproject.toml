@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentiment-analyzer"
+version = "0.1.0"
+description = "Sentiment analysis library for Hungarian news"
+authors = [
+  { name = "Zoltán Pál", email = "zoomyster@gmail.com" }
+]
+dependencies = [
+    "nltk",
+    "transformers",
+    "torch",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
