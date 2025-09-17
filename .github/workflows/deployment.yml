@@ -10,7 +10,7 @@ on:
       modules:
         description: "Modules to deploy (comma separated: sentiment,db,utils)"
         required: true
-        default: "sentiment,db,utils"
+        default: "sentiment_analyzer,db,utils"
 
 jobs:
   deploy:
