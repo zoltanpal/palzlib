@@ -8,7 +8,7 @@ on:
         required: true
         default: "main"
       modules:
-        description: "Modules to deploy (comma separated: sentiment,db,utils)"
+        description: "Modules to deploy (comma separated: sentiment_analyzer,db,utils)"
         required: true
         default: "sentiment_analyzer,db,utils"
 
@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        module: [sentiment, db, utils]
+        module: [sentiment_analyzer, db, utils]
 
     steps:
       - name: Checkout repository
