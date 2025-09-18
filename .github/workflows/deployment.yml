@@ -3,6 +3,12 @@ name: Deploy to Server
 on:
   workflow_dispatch:
     inputs:
+      option1:
+        type: boolean
+      option2:
+        type: boolean
+      option3:
+        type: boolean
       modules:
         description: "Modules to deploy (comma separated: sentiment_analyzer,palzlib_db)"
         required: true
