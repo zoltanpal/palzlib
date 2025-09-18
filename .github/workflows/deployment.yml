@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       modules:
-        description: "Modules to deploy (comma separated: sentiment_analyzer,db,utils)"
+        description: "Modules to deploy (comma separated: sentiment_analyzer,palzlib_db)"
         required: true
-        default: "sentiment_analyzer,db,utils"
+        default: "sentiment_analyzer,palzlib_db"
 
 jobs:
   deploy:
@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        module: [sentiment_analyzer, db, utils]
+        module: [sentiment_analyzer, palzlib_db]
 
     steps:
       - name: Checkout repository
