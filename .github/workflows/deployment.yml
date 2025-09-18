@@ -33,11 +33,8 @@ jobs:
       - name: Check if module is selected
         id: check
         run: |
-          if echo "${{ github.event.inputs.modules }}" | grep -qw "${{ matrix.module }}"; then
-            echo "deploy=true" >> $GITHUB_OUTPUT
-          else
-            echo "deploy=false" >> $GITHUB_OUTPUT
-          fi
+          echo "${{ github.event.inputs.modules }}"
+          ls -la
 
       - name: Build module
         if: steps.check.outputs.deploy == 'true'

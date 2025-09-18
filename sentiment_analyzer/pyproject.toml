@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sentiment_analyzer"
-version = "0.1.0"
-description = "Sentiment analysis library for Hungarian news"
+version = "1.0.1"
+description = "Sentiment analysis library for news"
 authors = [
   { name = "Zoltán Pál", email = "zoomyster@gmail.com" }
 ]
