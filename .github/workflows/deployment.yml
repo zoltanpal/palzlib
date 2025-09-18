@@ -55,7 +55,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "${{ matrix.module }}/dist/*"
-          target: "${{ secrets.SERVER_DEPLOYMENT_PATH }}/${{ matrix.module }}"
+          target: "/var/www/libs/${{ matrix.module }}"
 
       - name: Verify Deployment
         if: steps.check.outputs.deploy == 'true'
@@ -65,5 +65,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            ls -lh ${{ secrets.SERVER_DEPLOYMENT_PATH }}/${{ matrix.module }}
+            ls -lh "/var/www/libs/${{ matrix.module }}"
             echo "Deployed ${{ matrix.module }} successfully!"
