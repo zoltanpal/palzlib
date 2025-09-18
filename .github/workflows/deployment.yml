@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        module: [sentiment_analyzer, palzlib_db, utils] # master list of modules
+        module: [sentiment_analyzer, palzlib_db]
 
     steps:
       - name: Checkout repository
