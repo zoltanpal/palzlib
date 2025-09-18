@@ -3,10 +3,6 @@ name: Deploy to Server
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: "Branch to deploy"
-        required: true
-        default: "main"
       modules:
         description: "Modules to deploy (comma separated: sentiment_analyzer,db,utils)"
         required: true
