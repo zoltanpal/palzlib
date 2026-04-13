@@ -4,7 +4,6 @@ from dataclasses import dataclass
 
 from sentiment_analyzer_finbert.models.sentiments import Sentiments
 
-
 @dataclass(frozen=True, slots=True)
 class _ModelConfig:
     model_id: str

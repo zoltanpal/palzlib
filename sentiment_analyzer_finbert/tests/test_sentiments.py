@@ -3,6 +3,7 @@ import pytest
 from sentiment_analyzer_finbert.models.sentiments import Sentiments
 
 
+
 def test_sentiments_from_finbert_positive():
     result = Sentiments.from_finbert(
         [
