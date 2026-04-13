@@ -67,6 +67,9 @@ jobs:
             # rm -rf "${DIST_DIR:?}"
             # mkdir -p "${DIST_DIR}"
 
+            echo "Prepared dist target directory on server: ${DIST_DIR}"
+            echo ${{ secrets.SERVER_DEPLOYMENT_PATH }}/${{ inputs.python_module }}/dist
+
       - name: Upload dist artifacts to server
         uses: appleboy/ssh-action@v1.1.0
         with:
