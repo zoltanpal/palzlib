@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentiment_analyzer_finbert"
+version = "1.1.0"
+description = "Financial sentiment analysis library built on FinBERT"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [
+  { name = "Zoltán Pál", email = "zoomyster@gmail.com" }
+]
+dependencies = [
+  "torch>=2.0",
+  "transformers>=4.30",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["sentiment_analyzer_finbert*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

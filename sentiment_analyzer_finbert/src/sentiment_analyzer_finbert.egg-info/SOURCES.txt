@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+src/sentiment_analyzer_finbert/__init__.py
+src/sentiment_analyzer_finbert.egg-info/PKG-INFO
+src/sentiment_analyzer_finbert.egg-info/SOURCES.txt
+src/sentiment_analyzer_finbert.egg-info/dependency_links.txt
+src/sentiment_analyzer_finbert.egg-info/requires.txt
+src/sentiment_analyzer_finbert.egg-info/top_level.txt
+src/sentiment_analyzer_finbert/analyzers/__init__.py
+src/sentiment_analyzer_finbert/analyzers/sentiment_analyzer.py
+src/sentiment_analyzer_finbert/models/__init__.py
+src/sentiment_analyzer_finbert/models/sentiments.py
+tests/test_sentiment_analyzer.py
+tests/test_sentiments.py

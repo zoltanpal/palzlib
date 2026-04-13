@@ -1,0 +1,6 @@
+openai
+spacy
+
+[dev]
+pytest>=8.0
+ruff

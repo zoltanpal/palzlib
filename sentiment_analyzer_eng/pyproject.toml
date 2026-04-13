@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentiment_analyzer_eng"
+version = "1.0.0"
+description = "English sentiment analysis library built on NLTK VADER"
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [
+  { name = "Zoltán Pál", email = "zoomyster@gmail.com" }
+]
+dependencies = [
+  "nltk>=3.8",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["sentiment_analyzer_eng*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

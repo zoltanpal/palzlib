@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+src/sentiment_analyzer_eng/__init__.py
+src/sentiment_analyzer_eng.egg-info/PKG-INFO
+src/sentiment_analyzer_eng.egg-info/SOURCES.txt
+src/sentiment_analyzer_eng.egg-info/dependency_links.txt
+src/sentiment_analyzer_eng.egg-info/requires.txt
+src/sentiment_analyzer_eng.egg-info/top_level.txt
+src/sentiment_analyzer_eng/analyzers/__init__.py
+src/sentiment_analyzer_eng/analyzers/sentiment_analyzer.py
+src/sentiment_analyzer_eng/factory/__init__.py
+src/sentiment_analyzer_eng/factory/sentiment_factory.py
+src/sentiment_analyzer_eng/models/__init__.py
+src/sentiment_analyzer_eng/models/sentiments.py
+tests/test_sentiments.py

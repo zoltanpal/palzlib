@@ -1,0 +1,4 @@
+nltk>=3.8
+
+[dev]
+pytest>=8.0

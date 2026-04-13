@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: sentiment_analyzer
+Version: 1.1.5
+Summary: Sentiment analysis library for Hungarian news
+Author-email: Zoltán Pál <zoomyster@gmail.com>
+Requires-Dist: nltk
+Requires-Dist: transformers
+Requires-Dist: torch

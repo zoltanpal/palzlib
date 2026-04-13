@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentiment_analyzer"
+version = "1.1.5"
+description = "Sentiment analysis library for texts"
+authors = [
+  { name = "Zoltán Pál", email = "zoomyster@gmail.com" }
+]
+dependencies = [
+    "nltk",
+    "transformers",
+    "torch",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["sentiment_analyzer*"]

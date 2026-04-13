@@ -1,0 +1,79 @@
+name: Deploy Python Module
+
+on:
+  workflow_dispatch:
+    inputs:
+      python_module:
+        description: Select Python module to deploy
+        required: true
+        type: choice
+        options:
+          - ai_assitant
+          - palzlib_db
+          - sentiment_analyzer
+          - sentiment_analyzer_eng
+          - sentiment_analyzer_finbert
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.python_module }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate selected module
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ ! -f "${{ inputs.python_module }}/pyproject.toml" ]]; then
+            echo "Selected module '${{ inputs.python_module }}' does not contain a pyproject.toml file."
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build selected module
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          MODULE="${{ inputs.python_module }}"
+
+          python -m pip install --upgrade pip build
+          rm -rf "${MODULE}/build" "${MODULE}/dist" "${MODULE}/src/"*.egg-info
+          python -m build "${MODULE}" --outdir "${MODULE}/dist"
+
+          echo "Build artifacts:"
+          ls -lah "${MODULE}/dist"
+
+      - name: Prepare module dist target on server
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            set -eu
+
+            MODULE="${{ inputs.python_module }}"
+            DIST_DIR="${{ secrets.SERVER_DEPLOYMENT_PATH }}/${MODULE}/dist"
+
+            rm -rf "${DIST_DIR:?}"
+            mkdir -p "${DIST_DIR}"
+
+      - name: Upload dist artifacts to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: ${{ inputs.python_module }}/dist/*
+          target: ${{ secrets.SERVER_DEPLOYMENT_PATH }}/${{ inputs.python_module }}/dist
+          strip_components: 2
+          overwrite: true

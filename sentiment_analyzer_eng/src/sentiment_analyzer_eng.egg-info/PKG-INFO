@@ -1,0 +1,151 @@
+Metadata-Version: 2.4
+Name: sentiment_analyzer_eng
+Version: 1.0.0
+Summary: English sentiment analysis library built on NLTK VADER
+Author-email: Zoltán Pál <zoomyster@gmail.com>
+Requires-Python: >=3.13
+Description-Content-Type: text/markdown
+Requires-Dist: nltk>=3.8
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+
+# Sentiment Analyzer ENG
+
+`sentiment_analyzer_eng` is a small Python package for English sentiment analysis.
+
+The package is intentionally narrow:
+- English only
+- VADER as the current built-in backend
+- No `torch`
+- No `transformers`
+- Structured return values
+- A stable API that can support additional English models later
+
+## Requirements
+
+- Python 3.13+
+- `nltk`
+
+## Installation
+
+From source:
+
+```bash
+pip install -e .
+```
+
+Once the package is installed, VADER needs the `vader_lexicon` dataset. The analyzer will try to download it automatically on first use. If your environment has no network access, install it ahead of time:
+
+```python
+import nltk
+nltk.download("vader_lexicon")
+```
+
+## Usage
+
+The main API is `SentimentAnalyzer`:
+
+```python
+from sentiment_analyzer_eng import SentimentAnalyzer
+
+analyzer = SentimentAnalyzer()
+result = analyzer.analyze_text("This library is simple and useful.")
+
+print(result.sentiment_label)
+print(result.compound)
+print(result.asdict())
+```
+
+Batch analysis:
+
+```python
+from sentiment_analyzer_eng import SentimentAnalyzer
+
+analyzer = SentimentAnalyzer()
+results = analyzer.analyze_batch(
+    [
+        "I love this.",
+        "This is fine.",
+        "I hate waiting.",
+    ]
+)
+```
+
+You can also construct through the compatibility factory:
+
+```python
+from sentiment_analyzer_eng import SentimentAnalyzerFactory
+
+analyzer = SentimentAnalyzerFactory.get_analyzer()
+```
+
+If you want to be explicit about the backend:
+
+```python
+from sentiment_analyzer_eng import SentimentAnalyzer
+
+analyzer = SentimentAnalyzer(model="vader")
+```
+
+## Result Object
+
+Each analysis returns a `Sentiments` object with these fields:
+- `negative`
+- `neutral`
+- `positive`
+- `compound`
+- `compound_label`
+- `sentiment_label`
+- `sentiment_value`
+
+Example:
+
+```python
+{
+    "negative": 0.0,
+    "neutral": 0.412,
+    "positive": 0.588,
+    "compound": 0.6369,
+    "compound_label": "positive",
+    "sentiment_label": "positive",
+    "sentiment_value": 0.6369,
+}
+```
+
+For the built-in VADER backend, labels are derived from the standard thresholds:
+- `compound >= 0.05`: positive
+- `compound <= -0.05`: negative
+- otherwise: neutral
+
+## API Notes
+
+`SentimentAnalyzer` is model-oriented even though only `vader` is implemented today. That is deliberate.
+
+This makes later additions straightforward without changing caller code. Reasonable future options include:
+- a transformer-based English classifier for stronger sentence-level classification
+- a domain-tuned model for reviews, finance, or support conversations
+- a local-vs-hosted backend split behind the same API
+
+The intended direction is:
+- keep `SentimentAnalyzer(...)` as the main entry point
+- add new backend names through the internal model registry
+- keep returning the same `Sentiments` object regardless of backend
+
+## Project Layout
+
+```text
+sentiment_analyzer_eng/
+├── pyproject.toml
+├── README.md
+├── src/
+│   └── sentiment_analyzer_eng/
+│       ├── __init__.py
+│       ├── analyzers/
+│       │   └── sentiment_analyzer.py
+│       ├── factory/
+│       │   └── sentiment_factory.py
+│       └── models/
+│           └── sentiments.py
+└── tests/
+    └── test_sentiments.py
+```
