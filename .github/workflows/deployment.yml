@@ -64,11 +64,11 @@ jobs:
             MODULE="${{ inputs.python_module }}"
             DIST_DIR="${{ secrets.SERVER_DEPLOYMENT_PATH }}/${MODULE}/dist"
 
-            rm -rf "${DIST_DIR:?}"
-            mkdir -p "${DIST_DIR}"
+            # rm -rf "${DIST_DIR:?}"
+            # mkdir -p "${DIST_DIR}"
 
       - name: Upload dist artifacts to server
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
