@@ -88,7 +88,7 @@ jobs:
             set -eu
 
             MODULE="${{ inputs.python_module }}"
-            DIST_DIR="${{ secrets.SERVER_DEPLOYMENT_PATH }}/${MODULE}/dist"
+            DIST_DIR="${{ secrets.SERVER_DEPLOYMENT_PATH }}/${MODULE}"
 
             # Adjust this user/group!
             APP_USER="www-data"
